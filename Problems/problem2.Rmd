@@ -1,6 +1,6 @@
 ---
 title: "Problem 2"
-subtitle:  "STAT 341"
+subtitle:  "STAT 341 Winter 2022"
 graphics: yes
 output: 
         pdf_document:
