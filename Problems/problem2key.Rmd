@@ -1,0 +1,102 @@
+---
+title: "Problem 2"
+subtitle:  "STAT 341"
+graphics: yes
+output: 
+        pdf_document:
+         toc: false
+         number_sections: true
+  
+header-includes:
+- \usepackage{amsmath,amsfonts,amssymb}
+- \usepackage{framed}     
+- \usepackage{graphicx}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+1. The data \texttt{Jordan8687} in the \texttt{fastR2} package contains Michael Jordan's point totals for every game of his 1986-1987 regular season. 
+
+ a. Load the data and play around with density estimates using different kernels and bandwidths. 
+ 
+ 
+```{r include=FALSE}
+
+library(fastR2)  #load data, glimpse, look at it in viewer
+
+Jordan8687 %>% gf_dhistogram(~points, binwidth=5) %>%
+         gf_dens(kernel="rectangular", adjust=3) +
+         labs(title = "Michael Jordan's point count",
+              subtitle = "1986 - 1987 season")
+
+
+## rule of thumb for binwidth: calculate number of bins as k = sqrt(n) rounded up. Then divide the range of data by k to get binwidth. 
+## 
+## have them try different kernels and play around with adjust
+
+```
+ 
+ b. Is a normal distribution a good model for Michael Jordan's point production that year?
+
+
+```{r include=FALSE}
+
+#here we will calculate a qqplot.
+# to help them with probem 3 on HW, please do the following.
+# First, overlay the Normal dist on the histogram so you can see how to go from this picture to understanding a qqplot.
+# To find the mean and sd of the normal, use xbar and s. 
+
+point_summary <- Jordan8687 %>% 
+  summarise( mean_point = mean(points), 
+             sd_point = sd(points) )
+
+Jordan8687 %>% gf_dhistogram(~points, binwidth=5) %>%
+   gf_dist( dist="norm", color="red",
+            mean = point_summary$mean_point,
+            sd = point_summary$sd_point) +
+  labs(title = "Density Histogram of Michael Jordan's scores ",
+       subtitle = "Normal density overlay")
+
+
+
+gf_qq(~ points, dist = "qnorm", data=Jordan8687, dparams=list(mean=point_summary$mean, sd=point_summary$sd)) %>% 
+  gf_qqline(dist = "qnorm", dparams=list(mean=point_summary$mean, sd=point_summary$sd))
+
+
+
+#ideally place the two plots side by side using patchwork
+#so you can talk about how the two plots make sense with each other.
+library(patchwork)
+
+
+p1<-Jordan8687 %>% gf_dhistogram(~points, binwidth=5) %>%
+   gf_dist( dist="norm", color="red",
+            mean = point_summary$mean_point,
+            sd = point_summary$sd_point) +
+  labs(title = "Density Histogram of\nMichael Jordan's scores ",
+       subtitle = "Normal density overlay")
+
+p2<-gf_qq(~ points, dist = "qnorm", data=Jordan8687, dparams=list(mean=point_summary$mean, sd=point_summary$sd)) %>% 
+  gf_qqline(dist = "qnorm", dparams=list(mean=point_summary$mean, sd=point_summary$sd)) +
+  labs(title="Normal quantile plot")
+
+p1+p2
+
+
+## create a flipbook of qqplots when a normal sample of size 82 is taken. This can help calibrate our eyes to diagnosing our plot.
+
+set.seed(1234)
+simdata<-tibble(
+x=rnorm(n=82*10, mean = point_summary$mean, sd = point_summary$sd),
+sample=rep(1:82,each=10)
+)
+
+gf_qq(~x, distribution=qnorm,dparams=list(mean = point_summary$mean, sd = point_summary$sd), data=simdata) %>%
+gf_qqline(~x, distribution=qnorm, dparams=list(mean = point_summary$mean, sd = point_summary$sd), color="blue" ) %>%
+gf_facet_wrap(~factor(sample), scales="free")
+
+
+```
