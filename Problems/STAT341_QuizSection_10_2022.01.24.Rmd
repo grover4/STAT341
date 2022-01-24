@@ -1,0 +1,135 @@
+---
+title: "Problem 2"
+subtitle:  "STAT 341"
+graphics: yes
+output: 
+        pdf_document:
+         toc: false
+         number_sections: true
+  
+header-includes:
+- \usepackage{amsmath,amsfonts,amssymb}
+- \usepackage{framed}     
+- \usepackage{graphicx}
+---
+
+```{r setup, include=FALSE}
+#################################
+### Global code chunk options ###
+#################################
+
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+1. The data \texttt{Jordan8687} in the \texttt{fastR2} package contains Michael Jordan's point totals for every game of his 1986-1987 regular season. 
+
+ a. Load the data and play around with density estimates using different kernels and bandwidths. 
+ 
+ 
+```{r include = TRUE}
+################################################
+### Load data, glimpse, look at it in viewer ###
+################################################
+
+# Load fastR2 library
+library(fastR2)
+
+# Create histogram overlaid with rectangular density plot
+Jordan8687 %>%
+  gf_dhistogram(~ points, binwidth = 5) %>%
+  gf_dens(kernel="rectangular", adjust=3) +
+    labs( title = "Michael Jordan's point count",
+          subtitle = "1986 - 1987 season")
+
+```
+ 
+ b. Is a normal distribution a good model for Michael Jordan's point production that year?
+
+
+```{r include = TRUE}
+########################################
+### Create plots to assess normality ###
+########################################
+
+# Get mean and SD of dataset using summarize function from tidyverse library
+point_summary <- Jordan8687 %>% 
+  summarise( mean_point = mean(points), 
+             sd_point = sd(points))
+
+# Create histogram with normal distribution density overlaid
+Jordan8687 %>%
+  gf_dhistogram(~points, binwidth=5) %>%
+  gf_dist(dist = "norm",
+          color = "red",
+          mean = point_summary$mean_point,
+          sd = point_summary$sd_point) +
+    labs( title = "Density Histogram of Michael Jordan's scores",
+          subtitle = "Normal density overlay")
+
+
+# Create qq-plot to see how distribution compares to theoretical normal density
+gf_qq(~ points,
+      dist = "qnorm",
+      data = Jordan8687,
+      dparams = list(mean = point_summary$mean,
+                     sd = point_summary$sd)) %>% 
+  gf_qqline(dist = "qnorm",
+            dparams = list(mean = point_summary$mean,
+                           sd = point_summary$sd))
+
+# Load patchwork library
+library(patchwork)
+
+# Overlay histogram with theoretical normal distribution density
+p1 <- Jordan8687 %>%
+  gf_dhistogram(~points, binwidth = 5) %>%
+  gf_dist(dist = "norm",
+          color = "red",
+          mean = point_summary$mean_point,
+          sd = point_summary$sd_point) +
+    labs(title = "Density Histogram of\nMichael Jordan's scores ",
+       subtitle = "Normal density overlay")
+
+p2 <- gf_qq(~ points,
+            dist = "qnorm",
+            data = Jordan8687,
+            dparams = list(mean = point_summary$mean,
+                           sd = point_summary$sd)) %>% 
+        gf_qqline(dist = "qnorm",
+                  dparams = list( mean = point_summary$mean,
+                                  sd = point_summary$sd)) +
+          labs(title = "Normal quantile plot")
+
+# Display plots - Density histogram overlay and qq-plot
+p1 + p2
+
+
+# Create a flipbook of qqplots when a normal sample of size 82 is taken.
+### This can help calibrate our eyes to diagnosing our plot.
+
+# Set the seed, create tibble of simulated samples
+set.seed(1234)
+simdata <- tibble(
+                  x = rnorm(n = 82 * 10,
+                            mean = point_summary$mean,
+                            sd = point_summary$sd),
+                  sample = rep(1:82, each = 10)
+                  )
+
+# Create qq-plot to see how distributions compare to theoretical normal density
+gf_qq(~ x,
+      distribution = qnorm,
+      dparams = list(mean = point_summary$mean,
+                     sd = point_summary$sd),
+      data = simdata) %>%
+  gf_qqline(~ x,
+            distribution = qnorm,
+            dparams = list(mean = point_summary$mean,
+                           sd = point_summary$sd),
+            color = "blue" ) %>%
+    gf_facet_wrap(~ factor(sample),
+                  scales = "free")
+
+
+```

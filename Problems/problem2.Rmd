@@ -1,0 +1,27 @@
+---
+title: "Problem 2"
+subtitle:  "STAT 341 Winter 2022"
+graphics: yes
+output: 
+        pdf_document:
+         toc: false
+         number_sections: true
+  
+header-includes:
+- \usepackage{amsmath,amsfonts,amssymb}
+- \usepackage{framed}     
+- \usepackage{graphicx}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+1. The data \texttt{Jordan8687} in the \texttt{fastR2} package contains Michael Jordan's point totals for every game of his 1986-1987 regular season. 
+
+ a. Load the data and play around with density estimates using different kernels and bandwidths. 
+ 
+ 
+ 
+ b. Is a normal distribution a good model for Michael Jordan's point production that year?
