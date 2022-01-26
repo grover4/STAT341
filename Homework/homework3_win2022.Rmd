@@ -34,21 +34,6 @@ and $\theta$ is an unknown parameter of the distribution. Derive the method of m
    
 **We are mainly going to read your paragraph and see the plots. But don't forget to include your code neatly.**
 
-
-```{r eval=F,echo=F}
-library(tidyverse)
-#read data into R object called airbnb. 
-#
-airbnb <- read_csv(file="airbnb.csv")
-
-airbnb_subset <- airbnb %>%
-               filter(property_type=="Apartment", beds==2) %>%
-                select(price) %>% 
-                mutate(price = parse_number(price)) 
-
-write_csv(airbnb_subset, file="airbnb_price.csv")
-```
-
 4. Please read the \href{https://www.king5.com/article/news/health/coronavirus/uw-medicine-limit-covid-testing/281-7547b3d5-f3c9-4c55-a926-39cdf5903aed}{article} titled "UW Medicine limiting COVID 19 testing to those with symptoms, known exposures. This is a timely article which covers a problem you saw in STAT 340. You now know these things have a real application! So let's do this problem again for fun!
 
    As the article notes, the high positivity rate is important because UW Medicine tests COVID-19 samples by pooling samples. Pooling involves taking a small portion of four or five samples and mixing them into one sample and then testing that one sample for COVID-19. If a pool sample is positive, each sample in that pool is taken and tested individually to see which sample, or samples, was positive. 
