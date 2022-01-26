@@ -49,4 +49,4 @@ and $\theta$ is an unknown parameter of the distribution. Derive the method of m
     
    b. Let $N$ denote the total number of tests performed. That is $$N = \sum\limits_{i=1}^{k} X_i.$$ Find $E\left[N \right]$ and $Var\left[N \right]$. Clearly state assumptions you are making to perform the calculations.
     
-   c.  Let's assume UW Medicine receives $n=15,000$ blood samples. Let's also assume that the blood samples are grouped into $k=3,000$ groups of $m=5$ each. Make a plot (properly labeled) which shows how the expected number of tests varies as a function of $p$, the positivity rate. Try a sequence of values for $p$ from 5\% to 45\% in some suitable increments. 
+   c.  Let's assume UW Medicine receives $n=15,000$ blood samples. Let's also assume that the blood samples are grouped into $k=3,000$ groups of $m=5$ each. Make a plot (properly labeled) which shows how the expected number of tests varies as a function of $p$, the positivity rate. Try a sequence of values for $p$ from 5\% to 45\% in some suitable increments since these are some numbers mentioned in the article.
