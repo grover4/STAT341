@@ -1,0 +1,29 @@
+---
+title: "Problem 3"
+subtitle:  "STAT 341"
+graphics: yes
+output: 
+        pdf_document:
+         toc: false
+         number_sections: true
+  
+header-includes:
+- \usepackage{amsmath,amsfonts,amssymb}
+- \usepackage{framed}     
+- \usepackage{graphicx}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+1. The cosine X of the emission angle of electrons in muon decay has density
+\begin{eqnarray*}
+f_{\alpha}(x) &=& \frac{1+\alpha x}{2}, -1 \leq x \leq 1, -1 \leq \alpha \leq 1
+\end{eqnarray*}
+Find the method of moments estimator for $\alpha$.
+
+2. (Example 4.2.5 page 232 in Pruim) Suppose we sample from a uniform population on an unknown interval $\left[ \alpha, \beta \right]$. Derive the method of moments estimates of these parameters.
+
+3. Suppose we toss a fair die 20 times. Assume each throw is made in exactly the same way and that the outcome on one throw is independent of the outcomes on the others. Derive the sampling distribution of the maximum of the sample? 
