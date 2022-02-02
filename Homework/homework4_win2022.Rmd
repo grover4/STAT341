@@ -1,0 +1,56 @@
+---
+title: "Take Home 4"
+subtitle: "Winter 2022"
+output: pdf_document
+urlcolor: blue
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This homework is due on Wednesday Feb 9 by midnight PST.
+
+\textbf{Instructions}: Follow each one diligently. \textbf{No exceptions.}
+\hrule
+\begin{enumerate}
+	\item Please type your answers and upload as a PDF in Gradescope. If you prefer to write your answers, we will accept handwritten work provided it is legible. If you decide to go this route, be sure to \href{https://www.camscanner.com)}{scan} and upload a single file.  
+	\item Write your full name (as it appears in the grade book) on the first page, preferably as a running header on each page.
+	\item Answer the questions in order and number them as I have here. 
+	\item \textbf{Write complete answers which includes justifications for steps and/or references to results you use. This is really important.You all need to practice writing mathematical answers - define notation, explain what you are doing, cite any rules, etc. }
+	\item Clearly indicate your final answer. Put a frame around it where appropriate.
+\end{enumerate}
+\hrule 
+
+1. Let $X \sim Binom(n, \pi)$.
+    a.  Show, with justification, that
+    $$E\left[ \frac{X}{n} \left(1 - \frac{X}{n} \right) \right] = \frac{n-1}{n} \pi (1-\pi)$$. 
+    
+  b. Suppose we want an unbiased estimator for $\pi \:(1-\pi).$ Use your answer from (a) to construct such an estimator.
+    
+  \emph{Hint:} your estimator can involve $n$ and $X$, not $\pi$!
+    
+2. Suppose we have two unbiased estimators $T_1$ and $T_2$ of $\theta$.
+   
+  a. Show that $a T_1 + (1-a) T_2$ is also an unbiased estimator of $\theta$ for $0 \leq a \leq 1$.
+  b. If $T_1$ and $T_2$ are also independent, e.g., determined from independent samples, then calculate $Var(aT_1 + (1-a) T_2)$ in terms of $Var(T_1)$ and $Var(T_2)$.
+  c.  For the situation in part (b), determine the best choice of $a$ in the sense that $Var(aT_1 + (1-a)T_2)$ is smallest. What is the effect on this combined estimator of $T_1$ having a very large variance relative to $T_2$?
+   
+
+3. Let $X_1, X_2,\dots, X_n$ denote an i.i.d. sample from a  $Binom(1, \pi)$ distribution. Consider two estimators for $\pi$:
+\begin{eqnarray*}
+\widehat{\pi}_1 &=& \bar{X}, \\
+\widehat{\pi}_2 &=& \frac{ Y + \sqrt{n/4}}{n + \sqrt{n}}.
+\end{eqnarray*}
+	
+	where $Y=\sum\limits_{i=1}^{n} X_i$.
+	
+   a. Derive the mean squared error of each estimator. 
+    
+   b. Make a plot comparing the MSE of $\widehat{\pi}_1$ and $\widehat{\pi}_2$ for $n=6$ and also for $n=400$. Be sure to label axes, and give a title. Use \textbf{patchwork} to place the graphs next to each other.
+  
+  	c. For what values of $\pi$ - small, moderate, big - would you prefer to use $\widehat{\pi}_1$? How about $\widehat{\pi}_2$?
+
+4. Suppose that the time (in days) until a component fails has a gamma distribution with shape $\alpha=5$ and rate $\lambda=\frac{1}{10}$. When a component fails, it is immediately replaced by a new component. Use the central limit theorem to estimate the probability that 40 components will together be sufficient to last for at least 6 years. (You may assume a year has exactly 365.25 days)
+
+   \textbf{You may use R to perform the calculations but be sure to set up the problem, and explain your steps. It would be great if you also used `xpnorm` from \textbf{mosaic} to depict the area you are calculating under the normal curve.}
