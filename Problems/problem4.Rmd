@@ -1,0 +1,50 @@
+---
+title: "Problem 4"
+subtitle:  "STAT 341"
+graphics: yes
+output: 
+        pdf_document:
+         toc: false
+         number_sections: true
+  
+header-includes:
+- \usepackage{amsmath,amsfonts,amssymb}
+- \usepackage{framed}     
+- \usepackage{graphicx}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+1. (Question from STAT 220) Bias and variance are errors that arise in any measuring system. Bias is any systematic tendency for measurements to deviate from the true value, while variability describes a haphazard tendency for measurements to be off from the true value. 
+For each of the following errors, state whether it involves bias or variability.
+
+  a. Before taking off, a pilot is supposed to set the aircraft altimeter to the elevation of the airport. A pilot leaves Denver (altitude 5,280 feet) with her altimeter set to 2,500 feet, so the subsequent altitude measurements are off from the true altitude of the plane.
+
+   b. An iPhone battery is supposed to provide 3.7 volts. An aftermarket supplier manufactures 5,000 replacement batteries and finds that the actual voltage provided has a mean of 3.7 V, but about half the batteries provide less than 3.7 volts and half more than 3.7 volts. 
+
+   c. For data collected on car driving fatalities, a researcher claims that while many fatalities are recorded as involving alcohol, many others are missed because the deceased are not tested for alcohol consumption. 
+
+   d.  Scientists studying global warming have difficulty interpreting historical temperature data because most temperature measurements were recorded in urban areas, whch tend to be warmer than rural areas because of heat released by human activity.
+
+
+2. (Question from STAT 220) The sampling design of a survey is said to be biased if it systematically overrepresents a certain segment of the population.  Each of the sampling designs below are biased. Would you expect the estimates from these studies to be too high or too low? 
+   
+   a.  You use data from your STAT 341 classmates on Feb 10  (day before midterm) to estimate the percentage of UW students who study at least 2 hours every day.
+
+   b.   A wildlife biologist samples lakes by dropping grains of rice onto a map of the state and selects the lakes that have rice on them. She is interested in estimating $E_d$, the average thickness of the isothermal surface layer overlaying colder waters. (It has been long known that $E_d$ is greater in larger lakes.)
+\end{enumerate}
+
+3.  Let $X_1,X_2,\dots,X_n \overset{i.i.d.}{\sim} Poisson(\lambda)$ and let $\bar{X}$ and $S^2$ be the sample mean and sample variance respectively. True or false and explain: both $\bar{X}$ and $S^2$ are unbiased estimators of $\lambda$.
+
+4.  Dante, Ariel and Kobe are trying to estimate a parameter $\theta$. They each use a different unbiased estimator, call them, $\widehat{\theta}_D$, $\widehat{\theta}_A$ and $\widehat{\theta}_K$. Kobe is working independently from Dante and Ariel who are sharing data and the correlation between their estimators is 0.5. The three estimators used by Dante, Ariel and Kobe have variances 1, 4 and 9, respectively.
+
+   Suppose they now want to combine their estimators into a single number, using a weighted average of their estimators 
+\begin{eqnarray*}
+\widehat{\theta} &=& w_1 \widehat{\theta}_D + w_2 \widehat{\theta}_A + w_3 \widehat{\theta}_K
+\end{eqnarray*}
+
+which is unbiased and has the smallest possible variance. What weights should they use?
+
