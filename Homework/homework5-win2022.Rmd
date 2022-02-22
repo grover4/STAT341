@@ -1,0 +1,91 @@
+---
+title: "Take Home 5"
+subtitle: "Winter 2022"
+output: pdf_document
+urlcolor: blue
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This homework is due on Tuesday March 1 by midnight PST.
+
+\textbf{Instructions}: Follow each one diligently. \textbf{No exceptions.}
+\hrule
+\begin{enumerate}
+	\item Please type your answers and upload as a PDF in Gradescope. If you prefer to write your answers, we will accept handwritten work provided it is legible. If you decide to go this route, be sure to \href{https://www.camscanner.com)}{scan} and upload a single file.  
+	\item Write your full name (as it appears in the grade book) on the first page, preferably as a running header on each page.
+	\item Answer the questions in order and number them as I have here. 
+	\item \textbf{Write complete answers which includes justifications for steps and/or references to results you use. This is really important.You all need to practice writing mathematical answers - define notation, explain what you are doing, cite any rules, etc. }
+	\item Clearly indicate your final answer. Put a frame around it where appropriate.
+\end{enumerate}
+\hrule 
+
+1. (Problem 2.91 on page 127 paraphrased) After a 2010 NHL playoff win in which Detroit Red-Wings wingman Henrik Zetterberg scored two goals in a 3-0 win over the Phoneix Coyotes. Detroit coach Mike Babcock said "He's been really good at playoff time each and every year. He seems to score at a higher rate."
+
+   a. Suppose Coach Babcock's claim is actually based on a hypothesis test carried out on data. The two hypothesis are listed below:
+ 
+       - Zetterberg does not score at a higher rate during playoffs
+ 
+       - Zetterberg scores at a higher rate during playoffs
+ 
+   Which of the two statements is the null hypothesis? Explain.
+ 
+   b. Here is some data: in 506 regular season games, Zetterberg scored 206 goals. In 89 playoff games, he scored 44 goals. Let $X$ denote the number of goals he scores in the 89 playoff games.  Assume $$X \sim Pois(89 \times \lambda)$$ where $\lambda$ is the goal scoring rate per game. What value(s) are we hypothesizing for $\lambda$? State the null and alternative hypothesis in terms of $\lambda$.
+ 
+   c. Assuming a goal scoring rate of $\frac{206}{506}$ per game, calculate the probability of Zetterberg scoring 44 or more goals.  (You may use R to do the calculation, but be sure to show the code and the answer.)
+
+   d. How does this probability relate to Coach Babcock's claim? 
+
+2. Suppose we are interested in testing $\pi$, the unknown probability of a head for a coin. The hypotheses are: $H_0: \pi = \frac{1}{2}$ versus $H_1:\pi \neq \frac{1}{2}$. An experiment is conducted: 9 heads and 3 tails are obtained. Calculate the p-value for each scenario.
+    
+   a. Suppose the data were collected by tossing the coin 12 times and counting the number of heads that landed. The test statistic upon which the p-value  will be based is $T_1 = |X - 6|$, where $X$ is the number of heads in 12 tosses. 
+
+  b. Suppose the data were collected by deciding that the coin would be tossed until 3 tails landed.  The test statistic upon which the p-value will be based is $T_2 = \frac{1}{f(Y, \frac{1}{2})}$, where $Y$ is the number of heads which occur before the target number of tails is reached. The function $f$ is the PMF of $Y$.   (\emph{Hint:} $Y \sim Nbinom(size = 3, prob = \pi)$, so use this distribution to calculate the p-value. )
+        
+        
+3. Suppose a sample of size 1 is taken from the PDF
+\begin{eqnarray*}
+f(x) &=& \frac{1}{\theta} exp(-x/\theta), \ 0 < x < \infty
+\end{eqnarray*}
+
+with $\theta > 0$. We wish to test $H_0:\theta \leq 1$ versus $H_1:\theta >1$. The null hypothesis will be rejected if $X \geq 3.20$. 
+
+   a. Calculate $\alpha$, the level of significance of the test. 
+   b. Make a graph which shows how the the type II error probability varies with $\theta$.
+
+
+4. Please read sections 1 - 4 of the [paper](https://royalsocietypublishing.org/doi/10.1098/rsos.140216) \emph{An investigation of false discovery rate and mis-interpretation of p-values} by David Colquhoun. On page 3 he remarks 
+
+\begin{quote}
+At first sight, it might be thought that this procedure would guarantee that you would make a fool of yourself only once every 20 times that you do a test. But it implies nothing of the sort, and here is why.
+\end{quote}
+
+He then goes on to define something called a false discovery rate (FDR) or a false positive rate.
+
+
+  a. What is a \emph{false discovery rate}? Do not copy his words - explain in your own words so we can tell whether you understand it.
+
+  b. Suppose a drug company has many candidate drugs, only 15% of which are truly effective. Each drug is tested using decision rules which control the level of significance at 5% and have type II error rates of 15%. Using a tree diagram as in figure 1 (reproduced below in R), calculate the false discovery rate for this drug company. 
+```{r,echo=F,message=F,out.width="50%",fig.align="center"}
+library(openintro)
+
+treeDiag(
+  main=c("Real effect?","Test Result?"),
+  p1=c(0.01,0.99),
+  p2=list(c(0.80,0.20),c(0.05,0.95)),
+  out1 = c("Yes", "No"),
+  out2 = c("reject", "fail to reject"),
+  textwd = 0.15,
+  solwd = 0.4,
+  SBS = c(TRUE, TRUE),
+  showSol = TRUE,
+  solSub = NULL,
+  digits = 8,
+  textadj = 0.015,
+  cex.main = 1.0,
+  col.main = "#999999",
+  showWork = TRUE
+)
+```
