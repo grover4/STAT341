@@ -1,0 +1,83 @@
+---
+title: "Take Home 6"
+subtitle: "Winter 2022"
+output: pdf_document
+urlcolor: blue
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This homework is due on Tuesday March 8 by midnight PST.
+
+\textbf{Instructions}: Follow each one diligently. \textbf{No exceptions.}
+\hrule
+\begin{enumerate}
+	\item Please type your answers and upload as a PDF in Gradescope. If you prefer to write your answers, we will accept handwritten work provided it is legible. If you decide to go this route, be sure to \href{https://www.camscanner.com)}{scan} and upload a single file.  
+	\item Write your full name (as it appears in the grade book) on the first page, preferably as a running header on each page.
+	\item Answer the questions in order and number them as I have here. 
+	\item \textbf{Write complete answers which includes justifications for steps and/or references to results you use. This is really important.You all need to practice writing mathematical answers - define notation, explain what you are doing, cite any rules, etc. }
+	\item Clearly indicate your final answer. Put a frame around it where appropriate.
+\end{enumerate}
+\hrule 
+
+1. Let us assume that the life of a tire (in miles), say $X$, is normally distributed with mean $\mu$ and standard deviation $\sigma$ \emph{known} to be 5,000 miles. Past experience indicates that $\mu=30,000$. The manufacturer claims that the tires made by a new process have mean $\mu > 30,000$ and it is very possible that $\mu = 35,000$. 
+
+   Let us check their claim by testing $H_0: \mu \leq 30,000$ versus $H_1:\mu > 30,000$. We shall observe a large number $n$  independent values of $X$ say $X_1, X_2,\dots,X_n$ and we shall reject the null hypothesis if $\bar{X} \geq k$.
+   
+   Determine $n$ and $k$ so that the significance level $\alpha=0.01$ and the type II error rate at $\mu=35,000$ is no more than  1.79\%.
+	
+2. In this problem, you will write a function called `z.test` which calculates the p-value for testing the mean of a population. You will then use this function repeatedly to calculate the p-value in many randomly samples drawn from various distributions. 
+
+a. Fill in the blanks in the code below for the function `z.test`. The function takes as its arguments 
+ - $x:$ an $n \times 1$ vector of data
+ - alternative: one of greater, less or two.sided
+ - $\mu_0$: the null hypothesized value for the population mean 
+ - $\sigma$: the known value of the population standard deviation 
+ 
+We are going to write the function very generally so it calculates the p-value for one sided and two sided alternatives. 
+When you are done, remove the chunk option  `eval = FALSE` to reveal and evaluate the completed code in the knitted output.
+
+```{r eval = FALSE}
+
+z.test <- function( x, alternative = c("greater", "less", "two.sided"), mu0 = 0, sd = 1){
+  
+  alternative = match.arg(alternative) #fancy matching
+  
+  n <- length(x)    # number of observations
+  xbar <- ___       #mean of x
+  z <- ___          # z statistic for testing H0: mu = mu0
+  
+  #calculate p-value
+  pvalue = ifelse( alternative == "two.sided", ___, 
+                   ifelse(alternative == "greater", ___, ___))
+  
+  return(pvalue)
+}
+
+z.test(x = rnorm(n = 25, mean = 0, sd = 1), 
+       alternative = "two.sided",
+       mu0 = 0, 
+       sigma = 1)
+
+```
+
+
+b. Create a dataframe called `null_sim` which calculates the p-value for testing $H_0: \mu = 5$ versus $H_1: \mu \neq 5$ in 1,000 samples each of size $n = 25$ from a $Norm(5, 1)$ distribution.   (\emph{Hint:} use the `replicate` function. See the R exercise following example 3.2 in the chapter titled "Hypothesis Tests: p-values and error probabilities" for an idea of how to get started.)
+
+c. Make a QQplot to compare the quantiles of the p-values with those of a $Unif(0, 1)$ distribution. Does the uniform seem like a good fit?
+
+d. Repeat parts b. and c. but this time, simulate 1,000 samples of size $n=10$ from a $Norm( 6, 1)$ distribution. Does the uniform still seem like a good fit for the p-values?
+
+
+3. A manufacturer of toothpicks wonders what the mean width of a toothpick is under a new
+manufacturing method. How many toothpicks must the manufacturer measure to be 90\% confident that
+the sample mean is no farther from the true mean than 0.10 mm? Assume the conditions of the Central Limit Theorem are satisfied, and note that
+toothpicks produced under the old method had a standard deviation of 0.4 mm.
+
+4. For any random variable $X$ with mean $\mu$ and standard deviation $\sigma$, Chebyshev's inequality states that
+$$P( | X - \mu| \geq k \sigma ) \leq \frac{1}{k^2},$$
+where $k$ is some real number. Suppose $\widehat{\theta}$ is an unbiased estimator of $\theta$ with standard error $\sigma(\widehat{\theta})$. (For example if $\widehat{\theta} = \bar{X}$, then $\sigma(\bar{X}) = \frac{\sigma}{\sqrt{n}}$.)
+
+   Use Chebyshev's inequality to construct a confidence interval which has at least 95% coverage probability.
