@@ -1,0 +1,38 @@
+---
+title: "Problem 5"
+subtitle:  "STAT 341"
+graphics: yes
+output: 
+        pdf_document:
+         toc: false
+         number_sections: true
+  
+header-includes:
+- \usepackage{amsmath,amsfonts,amssymb}
+- \usepackage{framed}     
+- \usepackage{graphicx}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1. A type of metal bar breaks when a force of size $X$ is applied, where $X$ has density
+\begin{eqnarray*}
+	f(x) &=& 2 \theta \: x\: exp(- \theta x^2), \ \ \ 0 < x < \infty,
+\end{eqnarray*}
+
+and $\theta > 0$ is an unknown parameter. Suppose we only observe one realization of $X$. 
+a. Show that $Y= \sqrt{\theta} X$ is a pivotal quantity. Then construct a $100(1-\alpha)$\% confidence interval for $\theta$ based on $Y$.
+b. "Invert" the confidence interval to find the acceptance region for testing $H_0:\theta=\theta_0$.
+c. Calculate the type 1 error rate of the test from part (b). 
+
+
+2. Let $X_1,X_2,\dots,X_n \overset{i.i.d.}{\sim} Norm(\mu,1)$. A 95\% confidence interval for $\mu$ is $\bar{X} \pm 1.96 \frac{1}{\sqrt{n}}$. Let $p$ denote the probability that an additional independent  observation will fall in this interval. Is $p$ greater than, less than or equal to 0.95?
+
+
+3. Suppose the random variable $X$ is distributed according to the PDF below. What are reasonable guesses for a pivotal quantity in each case? Check if your guess is a pivot.
+\begin{enumerate}
+\item[(a)] $f(x) = 1, \ \ \theta - \frac{1}{2} \leq x \leq \theta + \frac{1}{2}.$
+\item[(b)] $f(x) = 2 x /\theta^2, \ \ 0 < x < \theta, \ \ \theta > 0$.
+\end{enumerate}
