@@ -1,0 +1,307 @@
+---
+title: "Review of MATH/STAT 394"
+subtitle: "KEY"
+output: pdf_document
+header-includes:
+- \usepackage{amsmath,amsfonts,amssymb}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(fastR2)
+library(openintro)
+```
+
+1. In a very popular Massive Open Online Course (MOOC), there are two tests that students can use to check their progress. The tests aim to examine quite different skills and knowledge, and all students continue in the MOOC regardless of their test outcomes.
+In test-1, 60\% of the students achieve a passing score.
+In test-2, 70\% of the students achieve a passing score.
+
+a. If the outcomes on the two tests are independent,
+what percentage of students pass both tests? 
+
+    Let $A$ denote the event that a randomly selected student passes the first test, and $B$ that they pass the second test. We want $P(A \cap B)$.
+
+    By independence
+    $$P(A \cap B) = P(A) \times P(B) = 0.42$$
+    
+b. Suppose in fact, 50\% of students pass both tests.  What is the probability that a student
+
+    i. will fail both tests?
+    
+    
+    \begin{align*}
+    P(A^c \cap B^c) &= P((A \cup B)^c) \tag{DeMorgan's Law} \\
+    &= 1 - P(A \cup B) \\
+    &= 1 - \left[ P(A) + P(B)  - P(A \cap B) \right] \tag{Additive Rule}
+    &= 1 - \left[ 0.6 + 0.7 - 0.5 \right] = 0.2.
+    \end{align*}
+    
+    
+   
+    ii. who passes the first test will also pass the second test?
+   
+    \begin{align*}
+    P(B|A) &= \frac{P(A \cap B)}{P(A)} \tag{conditional prob},\\
+    &= \frac{0.5}{0.6} = \frac{5}{6}.
+    \end{align*}
+    
+        
+    iii. who passes the second test also passed the first test?
+
+    \begin{align*}
+     P(A|B) &= \frac{P(A \cap B)}{P(B)} \tag{conditional prob},\\
+    &= \frac{0.5}{0.7} = \frac{5}{7}.
+    \end{align*}
+    
+2. In a certain large population, there is a new 
+flu virus. Each individual is susceptible to the virus with probability 1/3, and not susceptible with probability
+2/3. In any given winter, a susceptible individual gets this type of flu with
+probability 3/4, and a non-susceptible individual gets this flu with probability
+1/4. 
+
+a. Suppose Fred is a randomly selected individual from this population. What is the probability that he gets 
+the flu this winter?
+
+    The probability tree for this scenario is shown below.
+    
+    ```{r out.width = "50%", fig.align="center"}
+    library(openintro)
+    
+    treeDiag(main = c("Susceptible?", "Got Flu?"), 
+             p1 = c(1/3,2/3),
+             p2 = list(c(3/4,1/4),c(1/4,3/4) ))
+    
+    ```
+
+    The probability that Fred gets the flu this winter is    
+    \begin{align*}
+    P(\mbox{Fred gets flu}) &= \frac{3}{4} \times \frac{1}{3} + \frac{1}{4} \times \frac{2}{3}, \\
+    &= 0.25 + 0.1667 = 0.4167.
+    \end{align*}
+
+
+b. Fred gets the flu. What is the probability that Fred was a susceptible 
+individual?
+
+    Here we are working backwards on the tree. 
+    \begin{align*}
+    P(\mbox{Fred is susceptible}|\mbox{Fred got flu}) &= 
+    \frac{0.25}{0.25 + 0.1667} \\
+    &= 0.5995
+    \end{align*}
+
+
+3. Justin wants to know if his cat, Gus, prefers his right paw or if he uses both paws equally. So he dangles a ribbon in front of Gus and notes which paw Gus uses to bat at it.
+
+    He does this 10 times and Gus bats at it with his right paw 8 times and his left paw 2 times. Then Gus gets bored and leaves.
+  
+    Let the random variable $X$ denote the number of times that Gus batted with his right paw in 10 trials. (We observe $x=8$). Suppose you decide to model $X$ as a binomial random variable with $\pi=0.5$ (meaning Gus is equally likely to use either paw). 
+
+a. What assumptions do you need to make in order for the binomial model to be a reasonable choice for this setting?
+
+    The binomial experiment has four characteristics: 
+
+    - fixed number $n$ of trials which holds here with the definition of a trial being Gus batting at the ribbon
+ 
+     - each trial has two outcomes: a success or failure with a success being the occasion when Gus uses his right paw.
+ 
+     - the probability of a success, $\pi$ is the same (0.5 here) for each trial, in other words, it's as if Gus is tossing a fair coin and making his decision to use his right paw whenever it lands heads
+ 
+     - the trials are independent, meaning which paw Gus uses on one trial has no impact which paw he will use on another trial.
+ 
+     We mainly need to assume the last one since the others are given. 
+     
+     
+b. Give an expression for $P(X \geq 8)$. How will you calculate this using R?  Go ahead and log on to the Rstudio image in JupyterHub (see link in navigation pane of course CANVAS) and calculate it. 
+
+    We want to find 
+    $$P(X \geq 8) = \sum\limits_{x=8}^{10} \binom{10}{x} \left(\frac{1}{2} \right)^{10}.$$
+
+    ```{r echo =T}
+    pbinom(7, size=10, prob = 0.5, lower.tail=F)   #P(X>7)
+    ```
+
+
+4. A condition C among new-born babies occurs apparently independently in any baby with probability $p = 0.15$. 
+   Suppose in King County in 2014, there are 10,000 births. 
+
+a. Which probability distribution provides the most accurate model for computing the probability that more
+than 1600 babies with condition C are born in the county K in 2014? Explain your thinking. Go ahead and calculate it in R.
+
+     We are looking for a probability model for $X$, the number of babies that are born in King County in 2014  with the condition C. The binomial model provides the most accurate model because 
+
+    - there are 10,000 births (or trials) in 2014
+
+    - each birth either results in condition C (success) or not (failure)
+   
+    - the probability of a birth resulting in condition C is 0.15
+
+    - we are told that the condition occurs independently in any baby. 
+
+    Therefore $X \sim Binom(10,000,0.15)$. 
+    ```{r}
+    #Exact binomial calculation
+    pbinom(q = 1600, size = 10000, prob = 0.15, lower.tail = F )
+    ```
+
+
+b. What other probability distribution
+might be more computationally convenient, and would provide a good approximation for the probability in part a? Justify your thinking. Go ahead and calculate it in R. 
+
+    Hint: did you learn the Poisson approximation for the binomial? 
+
+     Since $n$ is large and $\pi$ is small, the Poisson distribution provides a good approximation with $\lambda = 10,000 \times 0.15.$
+
+    ```{r}
+
+    #Approximate Poisson calculation
+    ppois(q = 1600, lambda = 1500, lower.tail = F)
+    ```
+
+5. Karen is studying for a history exam, where the teacher is going to choose 5 essay questions randomly from the 10 he has given the class. Due to an upcoming probability exam, she only has limited time to prepare for the history exam. Suppose she decides to study 3 out of the 10 questions. 
+
+    Calculate the probability that Karen will not have studied any of the questions on the exam.
+
+    The sample space $S$ for this experiment consists of all the possible subsets of 5 questions that the instructor can randomly select. Each subset is equally likely due to random selection. Therefore by the equally likely rule, the probability of any event $A$ is given by
+    $$P(A) = \frac{|A|}{|S|}$$
+    where $|.|$ denotes the number of elements in that set.
+    
+    There are $\binom{10}{5}$ possible outcomes in the sample space. Therefore $|S| = \binom{10}{5}$.
+    
+    Let $A$ denote the event that there are 0 questions on the exam which Karen has studied. How many outcomes in $A$? The 3 questions she has studied form one group from which we want to randomly select 0. The remaining 7 questions form the other group from which we want to randomly select 5 Therefore, by the multiplication rule 
+    $$|A| = \binom{7}{5} \times \binom{3}{0}$$ and 
+    hence the probability that she will not have studied any of the questions on the exam is
+    $$\frac{ \binom{7}{5} \times \binom{3}{0}}{\binom{10}{5}}$$
+    
+6. In a certain country commercial airplane crashes occur according to a Poisson process at the rate of 2.5 per year. Using R, find the probability that the next two crashes will occur more than three months apart. 
+   
+   Hint: Let $X$ denote the number of crashes that occur in the next three months. Then $X \sim Pois\left(\lambda = 2.5 \times \frac{1}{4} \right)$
+  
+   Using the hint,  we want to calculate $P(X = 0)$. 
+
+    ```{r}
+    dpois(x = 0, lambda = 2.5/4)  #P(X = 0)
+    ```
+
+    \textbf{Using the exponential:} Let the random variable, $Y$ denote the time (in years) between two consecutive crashes. Then $Y$ has an exponential distribution with rate parameter $\lambda =2.5$.  
+
+    We want to calculate $P(Y \geq \frac{3}{12})$. This is simply one minus the CDF of the exponential distribution evaluated at $\frac{1}{4}$. In other words:
+$$P(Y \geq \frac{3}{12}) =  e^{-2.5 \cdot \frac{1}{4}} = `r 1-pexp(0.25, rate = 2.5)`$$
+    
+    The probability that the next two crashes occur more than  3 months apart is  `r round( 1 - pexp(0.25, rate = 2.5),3)`
+
+
+7. The annual rainfall (in inches) in a certain region is normally distributed with $\mu=40$ and $\sigma=4$. What is the probability that, starting with this year, it will take over 10 years before a year occurs having a rainfall of over 50 inches? What assumption are you making?  You are given that `pnorm(2.5) = 0.994`
+
+   Hint: Let $Y$ denote the number of years before a year occurs having rainfall of over 50 inches. What is a reasonable distribution to assume for $Y$?
+   
+    Let $Y$ denote the number of years we have to wait for a year with over 50 inches of rain. Then $Y$ is like the number of failures preceding the first success. Assuming that whether or not we receive over 50 inches in one year is independent of what happens in a different year, we can assume that $Y \sim Geom(\pi)$ where $\pi$ is the probability of receiving over 50 inches of rain. 
+
+    To find $\pi$, we use the fact that the annual rainfall in a randomly selected year, let's call it $X$, has a normal distribution. Therefore:
+$$\pi = P(X > 50)$$
+
+    We can calculate it in R directly 
+    ```{r}
+    pnorm(q = 50, mean = 40, sd = 4, lower.tail = F)
+
+    ```
+
+    Alternately, we can standardize $X$
+    $$\pi = P(X > 50) = P\left(\frac{X - 40}{4} > \frac{50  - 40}{4} \right) = P(Z > 2.5)$$
+     and calculate it using the standard normal distribution: (\textbf{you will be given this information on the test})
+    ```{r}
+    pnorm(q = 2.5, lower.tail = F )
+    ```
+
+    So to put this all together, the number of years we have to wait for the annual rainfall to exceed 50 inches is a geometric random variable with probability $\pi=0.006$. 
+    That is, $Y$ has the PDF
+    $$f(y) = (1-\pi)^{y} \pi  \ \ \ \ y = 0, 1, 2, \dots$$
+    We want to calculate $P(Y > 10)$.  We could do this in R
+    ```{r}
+    pgeom(q = 10, prob = 0.006, lower.tail = F)  #(1-pi)^{11}
+    ```
+
+    but let's also do it theoretically. We will use the result about geometric series in the final step 
+$$1 + r + r^2+ r^3 + \dots = \frac{1}{1-r}, \ \ \ |r| < 1.$$
+   
+
+    \begin{align*}
+    P(Y > 10) &= P(Y=11) + P(Y=12) + P(Y=13) +\dots\\
+    &= \pi (1-\pi)^{11} + \pi (1-\pi)^{12} + \pi (1-\pi)^{13} +\dots\\
+    &= \pi\cdot (1-\pi)^{11} \left[ 1 + (1-\pi) + (1-\pi)^2 + \dots \right] \\
+    &= \pi \cdot (1-\pi)^{11} \cdot \frac{1}{1-(1-\pi)},  \ \ \ \mbox{geometric series with} \ r = 1-\pi \\
+    &= (1-\pi)^{11}.
+    \end{align*}
+
+    Therefore the probability that it will take more than 10 years before a year occurs having a rainfall of over 50 inches is $$(1-\pi)^{11} = (1-0.006)^{11} = 0.936.$$
+
+    \textbf{This problem is interesting because we use the normal distribution to calculate the probability of a geometric random variable!}
+
+8. Suppose $X \sim Exp(1)$, that is it has PDF
+$$f_{X}(x)= e^{-x} \ \ 0 \leq x < \infty$$
+What distribution does the random variable $Y = \frac{X}{\lambda}$ have? State the name of the distribution and also the value for any parameters. (Hint: Find the CDF of $Y$ and then differentiate it to find a PDF)
+
+       
+    The CDF of $Y$ (in terms of $X$)
+    \begin{align*}
+    F_{Y}(y) &= P(Y \leq y), \\
+    &= P(X \leq \lambda y), \\
+    &= F_{X}(\lambda y).
+    \end{align*}
+    
+    Differentiating with respect to $y$ gives the PDF:
+    \begin{align*}
+    f_{Y}(y) &= \frac{d}{dy} F_{Y}(y), \\
+    &= \frac{d}{dy} F_{X}(\lambda y), \\
+    &= \frac{d}{d(\lambda y)} F_{X}(\lambda y) \times \frac{d}{dy} (\lambda\:y), \tag{chain rule of diff}\\
+    &= f_{X}(\lambda y) \lambda.
+    \end{align*}
+    
+    Since $f_{X}(x)= e^{-x}$ when $x \geq 0$, we get
+    $$f_{Y}(y)= \lambda e^{-\lambda y} \ \ \ y \geq 0$$
+    This can be recognized as the PDF of an exponential random variable with rate $\lambda$.
+
+9. Which distribution has the smaller 25th percentile? The $Unif(0,1)$ or the $Exp(1)$?
+
+    Let $X \sim Unif(0,1)$, that is
+    $$f_X(x) = 1 \ \ 0 \leq x < 1$$
+    The 25th percentile of a $X$ - call it $q$ - satisfies $P(X < q) = 0.25$. From simple geometry, we can see that $q = 0.25$. 
+    
+    Now let $Y \sim Exp(1)$, that is
+    $$f_Y(y) = e^{-y} \ \ \ 0 \leq y$$
+    The 25th percentile of $Y$ is found by setting 
+    \begin{align*}
+    \int\limits_{0}^{q} e^{-y} \:dy &= \left. -e^{-y} \right\rvert_{0}^{q} \\
+    &= 1 - e^{-q}
+    \end{align*}
+    to 0.25 and solving for $q$. We get
+    \begin{align*}
+    1 - e^{-q} &= 0.25\\
+    e^{-q} &= 0.75 \\
+    q &= - \ln(0.75) = 0.288.
+    \end{align*}
+    So the uniform has the smaller 25th percentile.
+    
+    
+
+10. The internal temperature in a gizmo is a random variable $X$ with PDF  (in appropriate units)
+\begin{eqnarray*}
+	f(x) &=& \left\{ \begin{array}{cc}	   
+		11 (1-x)^{10} &  0 < x < 1 \\
+		0 & otherwise \end{array} \right. 
+\end{eqnarray*} 
+
+    The gizmo has a cutoff feature, so that whenever the temperature exceeds the cutoff (call it $k$),  the gizmo turns off. It is observed that the gizmo shuts off with probability $10^{-22}$. What is $k$? 
+
+    To find $k$,we need to solve 
+    \begin{align*}
+    \int\limits_{k}^{1} f(x) dx &= 10^{-22}
+    \end{align*}
+    for $k$. This is shown below.
+    \begin{align*}
+    \int\limits_{k}^{1} f(x) dx &= \int\limits_{k}^{1} 11 (1-x)^{10} dx\\
+    &= \left. -(1-x)^{11} \right\rvert_{k}^{1}, \\
+    &= (1-k)^{11}.
+    \end{align*}
+    Now setting $(1-k)^{11} = 10^{-22}$ gives $k = 1-10^{-2} = 0.99$.
+    
