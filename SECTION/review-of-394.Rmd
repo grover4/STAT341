@@ -1,0 +1,450 @@
+---
+title: "Review of Concepts from MATH/STAT 394"
+subtitle: "Also some practice problems"
+output: pdf_document
+header-includes:
+    - \usepackage{amsmath, amssymb}
+    - \usepackage{framed}\definecolor{shadecolor}{rgb}{0.949,0.949,0.949}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\section{Reading Guide}
+
+The following is a detailed summary of formulas and concepts I expect you to be familiar with from MATH/STAT 394. 
+
+\hrule
+0. \textbf{Set Theorey}
+
+a. \textbf{Definitions}: sample space $S$, event, mutually exclusive events, empty set $\emptyset$, 
+
+b. \textbf{Set Operations:} union, intersection, complementation
+
+c. \textbf{DeMorgan's Laws} For any two events $E$ and $F$ defined on a sample space $S$:
+    
+     -   $(E \cup F)^{c} = E^c \cap F^c$
+
+     -   $(E \cap F)^{c} = E^c \cup F^c$
+  
+
+\dotfill
+
+1. \textbf{The Probability Function}
+
+a. Axioms of Probability: Let $S$ be a sample space for a random experiment. A probability assignment for $S$ is a function $P$ mapping events to the real line such that:
+
+    \begin{enumerate}
+    \item[A1]  $P(E) \geq 0$ for any event $E$ 
+    \item[A2]   $P(S)=1$ 
+    \item [A3]  The probability of a \emph{disjoint} union is the sum of probabilities. 
+    \end{enumerate}
+	
+b. Corollaries of the axioms:
+
+    i. $P(E^c) = 1- P(E)$   \hfill{(Rule of Complements) }
+    
+    ii. $P(E) \leq 1$
+    
+    iii. $P(\emptyset) = 0$ where $\emptyset$ is the null set
+    
+    iv. $P(E \cup F) = P(E) + P(F) - P(E \cap F).$ \hfill{(Addition rule)}
+    
+    v. $P(E \cup F) \leq P(E)+ P(F)$  \hfill{Union bound}
+    
+    vi. $P(E \cap F) \geq P(E) + P(F) - 1$ \hfill{Bonferroni's inequality}
+    
+    vii. If $E \subseteq F$ then $P(E) \leq P(F)$. \hfill{(Subset inequality)}
+
+\dotfill
+
+2. \textbf{Conditional Probability and Independence}
+
+a. If $A$ and $B$ are events in $S$ and $P(B) > 0$ then the \textbf{conditional probability} of $A$ given $B$, written $P(A|B)$, is defined as
+$$P(A|B) = \frac{P(A \cap B)}{P(B)}.$$
+Likewise, the conditional probability of $B$ given $A$ is defined as
+$$P(B|A) = \frac{P(A \cap B)}{P(A)}.$$
+
+b. \textbf{Chain rule For Probabilities}: Re-expressing the previous equations gives a formula for calculating the probability of the intersection of two events:
+   \begin{align*}
+   P(A \cap B) &= P(A|B) \times P(B),\\
+              &= P(B|A) \times P(A).
+  \end{align*}
+
+c. \textbf{Bayes Theorem:} For events $A$ and $B$:
+$$P(A|B) = \frac{P(B|A) P(A) }{P(B)}$$
+
+\dotfill
+
+3. \textbf{Discrete Distributions}
+
+a. A \textbf{random variable} is a *function* which maps each outcome in a sample space to a number. More informally, it is a variable whose value depends on the outcome of a random experiment. 
+
+   Notation: uppercase $X$ denotes the random variable as a function, lowercase $x$ denotes a possible value or number. 
+
+b. \textbf{Probabilty Mass Function (PMF)}: probability of observing a specific value $x$
+     $$f(x) = P(X = x) $$
+
+c. \textbf{Cumulative Distribution Function (CDF)}: accumulated probability up till a specific value $x$
+     $$F(x) = P(X \leq x) $$
+
+\dotfill
+
+4. \textbf{Mean and Variance of Discrete Distributions} 
+ 
+a. \textbf{Mean}: a number which represents the \textbf{average} value of random variable across separate replications of the experiment
+\begin{table}[h]
+\centering
+\begin{tabular}{lp{3in}}
+\textbf{Definition} & $\mu = E\left[X \right] = \sum\limits_{-\infty}^{\infty} x \cdot f(x)$ \\
+\textbf{Linearity of Expectation} & $E\left[a X + b \right] = a E\left[X \right] + b$ \\
+\textbf{Law of the Unconscious Probabilist} & $E\left[t(X) \right] = \sum\limits_{-\infty}^{\infty} t(x) \cdot f(x).$
+\end{tabular}
+\end{table}
+ 
+b. \textbf{Variance}: a positive number which describes spread of the values of the random variable from the mean.
+\begin{table}[h]
+\centering
+\begin{tabular}{lp{3in}}
+\textbf{Definition} & $\sigma^2 = Var\left[X \right] = \sum\limits_{-\infty}^{\infty} (x -\mu)^2 \cdot f(x)$\\ \\
+\textbf{Short cut for calculation} & $\sigma^2 = E\left[X^2 \right] - \mu^2.$\\ \\
+\textbf{Variance of linear transformation} & $Var\left[ a X + b \right] = a^2 \cdot Var\left[X \right]$
+\end{tabular}
+\end{table}
+ 
+c. \textbf{Standard deviation}: the positive square root of variance which is on the same units as data. It is interpretable as the \emph{typical} deviation of the values from the mean.
+
+d. \textbf{Chebychevs's inequality}: a useful inequality which provides an upper bound for the probability that a random variable can be more than $k$ standard deviations from the mean. 
+     $$P\left(|X -\mu| \geq k \sigma \right) \leq \frac{1}{k^2}.$$
+     
+\dotfill
+
+5. \textbf{The Binomial Distribution}
+ 
+a. A \textbf{binomial random variable} counts the number of successes in $n$ independent trials where each trial results in a success with probability $\pi$ or in a failure with probability $1-\pi$. We write $X \sim Binom(n, \pi)$.
+ 
+b. The binomial PMF
+     $$f(x) = \binom{n}{x} \pi^{x} (1-\pi)^{n-x}, \ \ x=0,1,\dots,n$$
+ 
+c. \textbf{Mean} of $X \sim Binom(n,\pi)$: $n \pi$
+ 
+d. \textbf{Variance} of $X \sim Binom(n, \pi)$: $n \pi (1-\pi)$  
+ 
+e. Relevant R functions: 
+
+    - `dbinom(x, size, prob)` calculates $f(x) = P(X = x)$
+       
+    - `pbinom(q, size, prob)` calculates $F(q) = P(X \leq q)$
+       
+    - `pbinom(q, size, prob,lower.tail = F)` calculates $P(X > q)$. 
+
+\dotfill
+
+6. \textbf{The Geometric Distribution}
+ 
+a. A \textbf{geometric random variable} counts the number of failures \emph{before} we see the first success when independent trials with probability $\pi$ of observing a success are performed. We write $X \sim Geom( \pi)$. 
+ 
+b. The geometric PMF
+      $$f(x) = \pi (1-\pi)^{x}, \ x=0,1,2,\dots$$
+ 
+c. For any non-negative integer $k$, we have the result
+   $$P(X \geq k) = (1-\pi)^{k}$$
+ 
+d. \textbf{Memoryless Property} For all non-negative integers x, k 
+   $$P(X \geq x+k | X \geq k) = P(X \geq x)$$
+ 
+e. \textbf{Mean} of $X \sim Geom(\pi)$:  $\frac{1-\pi}{\pi}$.
+ 
+f. Relevant R functions: 
+   
+    - `dgeom(x, prob)` calculates $f(x) = P(X = x)$
+   
+    - `pgeom(q, prob)` calculates $F(q) = P(X \leq q)$
+   
+    - `pgeom(q, prob,lower.tail = F)` calculates $P(X > q)$. 
+
+
+\dotfill
+
+7. \textbf{The Poisson Distribution}
+ 
+a. The Poisson random variable counts the number of occurrences of an event over a fixed time period or within a space. We write $X \sim Poisson(\lambda)$ where $\lambda$ denotes the rate of occurrence.
+ 
+b. The Poisson PMF is obtained from the binomial PMF by setting $\pi = \frac{\lambda}{n}$ and letting $n \rightarrow \infty$
+   $$f(x) = e^{-\lambda} \frac{\lambda^x}{x!}, \ \ x=0,1,2\dots$$
+ 
+   
+c. \textbf{Mean} of $X \sim Pois(\lambda)$: $\lambda$
+ 
+d. \textbf{Variance} of $X \sim Pois(\lambda)$: $\lambda$
+ 
+e. Relevant R functions: 
+
+    - `dpois(x, lambda)` calculates $f(x) = P(X = x)$
+    
+    - `ppois(q, lambda)` calculates $F(q) = P(X \leq q)$
+    
+    - `ppois(q, lambda,lower.tail = F)` calculates $P(X > q)$. 
+       
+
+\hrule
+
+8. \textbf{Continuous Distributions}
+
+a. The \textbf{Probability Density Function} is any function which satisfies two properties:
+   $$f(x) \geq 0 \ \forall \ x, \ \ \int\limits_{-\infty}^{\infty} f(x) dx =1.$$
+   
+b. Probabilities are calculated as areas under the PDF:
+   $$P(a \leq X < b) = \int\limits_{a}^{b} f(x) dx.$$  
+   Since a single value has no area, $P(X = x) = 0$ for any $x$ however.  
+
+c. The \textbf{Cumulative Distribution Function} $F(x)$ is again the accumulated probability uptil a value $x$:
+   $$F(x) = P(X \leq x) = \int\limits_{-\infty}^{x} f(t) dt.$$
+       
+d. \textbf{Properties of the CDF} 
+          
+    - it is non-decreasing
+          
+    - it is right continuous
+          
+    - $\lim\limits_{x \rightarrow \infty} F(x) = 1$
+          
+    - $\lim\limits_{x \rightarrow -\infty} F(x) = 0$
+
+e. \textbf{CDF to PDF}: By the Fundamental Theorem of Calculus, we can write
+   $$f(x) = \frac{d}{dx} F(x).$$
+   
+   
+\dotfill
+
+9. \textbf{Mean and Variance of Continuous Distributions}
+
+a. \textbf{Mean}: $\mu = E\left[X \right] = \int\limits_{-\infty}^{\infty} x \cdot f(x) dx$
+
+b. \textbf{Variance}: $\sigma^2 = Var\left[X \right] = E\left[ X^2 \right] - \mu^2$
+
+c. The results stated in 3d. for Discrete Distributions hold in the continuous case as well.
+
+d. In addition to the mean and variance, we can also calculate percentiles for a continuous distribution. 
+
+    \textbf{Definition} The $100 \times p$th percentile of a continuous distribution is the number q such that $P(X \leq q) = p$
+   
+\dotfill
+
+10. \textbf{The Uniform Distribution} 
+
+a. The uniform random variable is the continuous analog of the equally likely model in a discrete sample space. We write $X \sim Unif(a, b)$.
+
+b. PDF of a uniform
+   $$f(x) = \frac{1}{b-a}, \ \ a \leq x < b$$
+
+c. \textbf{Mean} of $X \sim Unif(a,b)$: $(a+b)/2$
+   
+d. \textbf{Variance} of $X \sim Unif(a, b)$: $(b-a)^2/12$
+   
+e. \textbf{Percentiles} The $100 \times p$th percentile of $X \sim Unif(a,b)$ is given by $a + (b-a) \times p$
+
+f. Relevant R functions: For $X \sim Unif(min, max)$
+
+    - `dunif(x, min, max)` calculates PDF $f(x)$
+
+    - `punif(q, min, max)` calculates $F(q) = P(X \leq q)$
+
+    - `punif(q, min, max, lower.tail = F)` calculates $P(X > q)$. 
+    
+    - `qunif(p, min, max)` calculates the $100 p$th percentile
+       
+  
+\dotfill
+
+11. \textbf{Exponential Distribution}
+   
+a. The exponential random variable arises as the inter-event time in a Poisson model. However, it can be used as a model for any non-negative random variable! We write $X \sim Exp(\lambda)$ where $\lambda (> 0)$ is called the \emph{rate} parameter.
+   
+b. PDF of an exponential random variable:
+   $$f(x) = \lambda e^{-\lambda x}, \ \ 0 \leq x < \infty$$
+   
+c. CDF of an exponential random variable:
+   \begin{align*}
+   F(x) &= P(X \leq x) \\
+        &= \left\{ \begin{array}{cc}
+                   0 & x < 0 \\
+                   1 - e^{-\lambda x} & 0 \leq x
+                   \end{array} \right.
+  \end{align*}
+   
+d. \textbf{Memoryless Property}: for $x, k \geq 0$ we have the result:
+  $$P(X \geq x+k | X \geq k) = P(X \geq x)$$
+   
+e. \textbf{Mean} of $X \sim Exp(\lambda)$:  $\frac{1}{\lambda}$
+   
+f. \textbf{Variance} of $X \sim Exp(\lambda)$: $\frac{1}{\lambda^2}$
+   
+g. \textbf{Percentiles} The $100 \times p$th percentile of  $X \sim Exp(\lambda)$ is given by $-\frac{1}{\lambda} \ln(1-p)$. 
+  
+h. Relevant R functions: For $X \sim Exp(rate)$
+   
+      - `dexp(x, rate)` calculates PDF $f(x)$
+   
+      - `pexp(q, rate)` calculates $F(q) = P(X \leq q)$
+   
+      - `pexp(q, rate, lower.tail = F)` calculates $P(X > q)$
+   
+      - `qexp(p, rate)` calculates the $100 p$th percentile
+       
+   
+\dotfill
+
+12. \textbf{The Normal Distribution} 
+   
+a. The normal random variable is often used as a model for biological measurements such as height, weight etc. It is also the limiting distribution for other models, such as the binomial, Poisson, etc. We write $X \sim Norm(\mu, \sigma)$.
+   
+b. We can write $X = \mu + \sigma\:Z$ where $Z \sim Norm(0,1)$ is called the \textbf{standard normal} random variable.
+   
+c. PDF of a normal:
+   $$f(x) = \frac{e^{-\frac{(x-\mu)^2}{2 \sigma^2}}}{\sigma \sqrt{2 \pi}}  \ \ \ \ -\infty < x <\infty$$
+   
+d. \textbf{Mean} of $X \sim Norm(\mu, \sigma)$: $\mu$
+   
+e. \textbf{Variance} of $X \sim Norm(\mu, \sigma)$: $\sigma^2$.
+   
+f. \textbf{68-95-99.7 Rule}: Regardless of the value of $\mu$ and $\sigma$ the area within 1/2/3 standard deviations of the mean is 68%/95%/99.7%.
+   
+g. \textbf{Percentiles}: The $100 \times p$th percentile of $X \sim Norm(\mu, \sigma)$ is $\mu + \sigma q_0$ where $q_0$ is the corresponding percentile for the standard normal distribution.
+   
+h. Relevant R functions: For $X \sim Norm(\mu, \sigma)$
+     
+      - `dnorm(x, mean, sd)` calculates PDF $f(x)$
+     
+      - `pnorm(q, mean, sd)` calculates $F(q) = P(X \leq q)$
+     
+      - `pnorm(q, mean, sd, lower.tail = F)` calculates $P(X > q)$.
+     
+      - `qnorm(p, mean, sd)` calculates the $100 p$th percentile
+       
+
+\section{Sums and Series}
+
+\emph{Binomial Theorem} For any real numbers $a$ and $b$ and integer $n>0$
+\begin{eqnarray*}
+(a+b)^n &=& \sum\limits_{x=0}^{n} {n \choose x} a^x b^{n-x}
+\end{eqnarray*}
+
+\emph{Geometric Series} For any real numbers $a$ and $r$  ($|r| < 1$) 
+\begin{eqnarray*}
+a + a r + ar^2 + a r^3 + \dots = \frac{a}{1-r}
+\end{eqnarray*}
+
+\emph{Taylor series for $e^{x}$:}
+\begin{eqnarray*}
+e^{x} &=& 1 + x +\frac{x^2}{2!} +\frac{x^3}{3!} + \frac{x^4}{4!} + \dots
+\end{eqnarray*}
+
+
+\newpage
+
+\section{Practice Problems}
+
+\begin{shaded}
+\subsection{Instructions} 
+
+    - The first week of class will be devoted to working on the following problems. They cover content from MATH/STAT 394 that will be useful for you to brush up on.
+    
+    - Please work in groups of three to answer the problems in order. For each problem, please write a clear explanation of your approach. Use diagrams, visuals, equations or code as necessary. 
+    
+    - Identify a member of your group who will be the "reporter" and share your groups's answer if called to do so. 
+\end{shaded}
+
+<!---
+    - Please work in groups of three to answer the problem assigned to your group. Once the group has reached a consensus on the solution, please write a clear explanation of your approach. Use diagrams, visuals, equations or code as necessary. 
+
+    - After completing the problem,  rotate to the next group's station where you will find their solution to a different problem.  Discuss within your new group what you think about their approach and findings. Make sure to document any additions or changes you suggest.
+
+    - After rotating through and critiquing the other groups' solutions, return to your original home group. Review the feedback and suggestions provided by the other groups on your initial problem.
+--->
+
+
+1. In a very popular Massive Open Online Course (MOOC), there are two tests that students can use to check their progress. The tests aim to examine quite different skills and knowledge, and all students continue in the MOOC regardless of their test outcomes.
+In test-1, 60\% of the students achieve a passing score.
+In test-2, 70\% of the students achieve a passing score.
+
+a. If the outcomes on the two tests are independent,
+what percentage of students pass both tests.
+
+b. Suppose in fact, 50\% of students pass both tests.  What is the probability that a student
+
+    i. will fail both tests?
+    
+    ii. who passes the first test will also pass the second test?
+    
+    iii. who passes the second test also passed the first test?
+
+2. In a certain large population, there is a new 
+flu virus. Each individual is susceptible to the virus with probability 1/3, and not susceptible with probability
+2/3. In any given winter, a susceptible individual gets this type of flu with
+probability 3/4, and a non-susceptible individual gets this flu with probability
+1/4. 
+
+a. Suppose Fred represents a randomly selected individual from this population. What is the probability that he gets 
+the flu this winter?
+
+b. Fred gets the flu. What is the probability that Fred was a susceptible 
+individual?
+
+
+3. Justin wants to know if his cat, Gus, prefers his right paw or if he uses both paws equally. So he dangles a ribbon in front of Gus and notes which paw Gus uses to bat at it.
+
+    He does this 10 times and Gus bats at it with his right paw 8 times and his left paw 2 times. Then Gus gets bored and leaves.
+  
+    Let the random variable $X$ denote the number of times that Gus batted with his right paw in 10 trials. (We observe $x=8$). Suppose you decide to model $X$ as a binomial random variable with $\pi=0.5$ (meaning Gus is equally likely to use either paw). 
+
+a. What assumptions do you need to make in order for the binomial model to be a reasonable choice for this setting?
+
+b. Give an expression for $P(X \geq 8)$. How will you calculate this using R? Go ahead and log on to the Rstudio image in JupyterHub (see link in navigation pane of course CANVAS) and calculate it.  
+
+
+4. A condition C among new-born babies occurs apparently independently in any baby with probability $p = 0.15$. 
+   Suppose in King County in 2014, there are 10,000 births. 
+
+a. Which probability distribution provides the most accurate model for computing the probability that more
+than 1600 babies with condition C are born in the county K in 2014? Explain your thinking. Go ahead and calculate it in R.
+
+b. What other probability distribution
+might be more computationally convenient, and would provide a good approximation for the probability in part a? Justify your thinking.   Go ahead and calculate it in R.
+
+    Hint: did you learn the Poisson approximation for the binomial? 
+
+5. Karen is studying for a history exam, where the teacher is going to choose 5 essay questions randomly from the 10 he has given the class. Due to an upcoming probability exam, she only has limited time to prepare for the history exam. Suppose she decides to study 3 out of the 10 questions. 
+
+    Calculate the probability that Karen will not have studied any of the questions on the exam.
+
+
+6. In a certain country commercial airplane crashes occur according to a Poisson process at the rate of 2.5 per year. Using R, find the probability that the next two crashes will occur more than three months apart. 
+   
+   Hint: Let $X$ denote the number of crashes that occur in the next three months. Then $X \sim Pois\left(\lambda = 2.5 \times \frac{1}{4} \right)$
+
+
+7. The annual rainfall (in inches) in a certain region is normally distributed with $\mu=40$ and $\sigma=4$. What is the probability that, starting with this year, it will take over 10 years before a year occurs having a rainfall of over 50 inches? What assumption are you making?  You are given that `pnorm(2.5) = 0.994`
+
+   Hint: Let $X$ denote the number of years before a year occurs having rainfall of over 50 inches. What is a reasonable distribution to assume for $X$?
+
+8. Suppose $X \sim Exp(1)$, that is it has PDF
+$$f_{X}(x)= e^{-x} \ \ \ \ \  0 \leq x < \infty$$
+What distribution does the random variable $Y = \frac{X}{\lambda}$ have? State the name of the distribution and also the value for any parameters. (Hint: Find the CDF of $Y$ and then differentiate it to find a PDF)
+
+
+9. Which distribution has the smaller 25th percentile? The $Unif(0,1)$ or the $Exp(1)$?
+
+
+10. The internal temperature in a gizmo is a random variable $X$ with PDF  (in appropriate units)
+\begin{eqnarray*}
+	f(x) &=& \left\{ \begin{array}{cc}	   
+		11 (1-x)^{10} &  0 < x < 1 \\
+		0 & otherwise \end{array} \right. 
+\end{eqnarray*} 
+
+    The gizmo has a cutoff feature, so that whenever the temperature exceeds the cutoff (call it $k$),  the gizmo turns off. It is observed that the gizmo shuts off with probability $10^{-22}$. What is $k$? 
+
+
+ 
