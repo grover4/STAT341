@@ -1,0 +1,147 @@
+---
+title: "Problem Section 1 KEY"
+subtitle: "Discrete Distributions"
+graphics: yes
+output: pdf_document
+header-includes:
+    - \usepackage{amsmath, amssymb}
+    - \usepackage{framed}\definecolor{shadecolor}{rgb}{0.949,0.949,0.949}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\begin{shaded}
+
+\textbf{Learning Outcomes}
+
+The problems are designed to build conceptual understanding and problem-solving skills. The emphasis is on learning to find, evaluate and build confidence. The specific tasks include: 
+
+   - Construct a table of joint probabilities and calculate marginal and conditional distributions.
+     
+   - Calculate probabilities for the trinomial experiment
+  
+   - Back up and support work with relevant explanations
+
+
+\end{shaded}
+
+
+* * *
+
+
+### Exercises 
+
+1. A fair coin is tossed four times. $X$ is the number of heads that come up on the first three tosses and $Y$ is the number of heads that come up on tosses 2, 3, 4. 
+
+a. Fill in the cells of the table showing the joint PMF of $\langle X, Y \rangle$. 
+   
+   \begin{table}[h]
+   \centering
+   \caption{Joint and marginal PMF of $X$ and $Y$}
+   \begin{tabular}{|c|c|c|c|c|c|}
+   \hline
+    & x=0 & x=1 & x=2 & x=3 & $f_Y(y)$\\
+   \hline
+   y=0 & `r .5^4` & `r .5^3*.5` & 0 & 0 & `r dbinom(0,3,.5)`\\
+   y=1 & `r .5^3*.5` & `r .5^4 + .5^2*.5^2*2` & `r .5*.5^2*2*.5` & 0 & `r dbinom(1,3,.5)` \\
+   y=2 & 0 & `r .5*.5^2*2*.5` & `r .5^4 + .5^2*.5^2*2` & `r .5^4` & `r dbinom(2,3,.5)`\\
+   y=3 & 0 & 0 & `r .5^3*.5` & `r .5^4` & `r dbinom(3,3,.5)`\\
+   \hline
+   $f_{X}(x)$ & `r dbinom(0,3,.5)` &  `r dbinom(1,3,.5)` & `r dbinom(2,3,.5)` &  `r dbinom(3,3,.5)` & \\ \hline
+   \end{tabular}
+   \end{table}
+   
+    \textbf{Explanation:} By the multiplication rule for counting, there are $$2 \times 2 \times 2 \times 2 = 2^{4} = 16$$ possible outcomes in this sample space. Each outcome is equally likely and therefore the probabilities of the various $(x,y)$ combinations can be deduced by simply counting the number of outcomes that would result in this value.
+   
+    For example, the outcomes that lead to $x=1, y=2$ are HTTH, THTH, TTHH, which gives a probability of 3/16.
+
+   
+   
+b. Find the marginal distribution of $X$ and also of $Y$.
+   
+    We can find the marginal distributions by simply adding the probabilities along the rows or the columns. However, we can also recognize that since $X$ is the number of heads in 3 tosses, it is a binomial random variable. Hence it's probabilities are given by the $Binom(3, \frac{1}{2})$ distribution. 
+    
+    The marginal probabilities are shown in the table in part a along the margins. 
+    
+   
+c. Find the conditional probabilities $P(X =2 | Y = 2)$ and $P(Y = 3|X = 0)$. 
+
+    Using the formula for conditional probabilities
+    $$P(X = x|Y=y) = \frac{ P(X = x, Y = y)}{P(Y = y)}$$
+    we have 
+    $$P(X = 2|Y = 2) = \frac{0.1875}{0.375} = `r 0.1875/0.375`$$
+    and 
+    $$P(Y = 3|X = 3) = \frac{0}{0.125} = 0$$
+
+2. Suppose that five independent observations are
+drawn from the continuous PDF
+    $$f(t) = 2t \ \ 0 \leq t < 1$$
+Let $X$ denote the number of $t$'s that fall in the interval $0 \leq t < \frac{1}{3}$ and let $Y$ denote the number of $t$'s in the interval $\frac{1}{3} \leq t < \frac{2}{3}$. 
+
+a. Find the probability that $X=1$ and $Y = 2$.
+
+   Here $\langle X, Y \rangle$ follow a trinomial distribution since 
+   - there are 5 (fixed number) trials
+   - each trial results in one of three outcomes: whether the realization falls in $[0, \frac{1}{3})$, or $[\frac{1}{3}, \frac{2}{3})$ or $[\frac{2}{3}, 1)$.
+   - the trials are independent 
+   
+     Under these conditions, the joint PMF of $\langle X, Y \rangle$ is
+  \begin{align*}
+   f(x,y) &= P(X = x, Y = y), \\
+          &= \frac{5!}{x!y! (5-x-y)!} \pi_1^{x} \pi_2^{y} (1-\pi_1-\pi_2)^{5-x-y}
+  \end{align*}
+  
+    where $x+y \leq 5$ and the probabilities $\pi_1$ and $\pi_2$ are
+  \begin{align*}
+  \pi_1 &= \int\limits_{0}^{1/3} f(t) dt = \frac{1}{9},\\
+  \pi_2 &= \int\limits_{1/3}^{2/3} f(t) dt = \frac{3}{9}.
+  \end{align*}
+  
+    We will calculate the probability that $X=2, Y=1$ by plugging into the joint PMF:
+  \begin{align*}
+  f(2,1) &= P(X=2, Y=1), \\
+         & \frac{5!}{2! 1! 2!} \left(\frac{1}{9} \right)^{2} \times \left(\frac{3}{9} \right) \:\times \left(\frac{5}{9} \right)^{2}, \\
+         &= `r (factorial(5)/4)*(1/9)^2*(3/9)*(5/9)^2`
+  \end{align*}
+  
+    We can also verify this in R.
+    ```{r}
+    dmultinom(x=c( 2, 1, 2), prob = c( 1/9, 3/9, 5/9))
+    ```
+  
+b. Find the probability that $X=1$. How will you calculate this in R?
+
+    Since this is a statement just about $X$, we will need to use the marginal distribution of $X$ in order to calculate the probability. 
+    
+    We know that the marginal distribution of $X$ is a binomial. In other words: $X \sim Binom( 5, \frac{1}{9})$. We want $P(X=1)$.
+    
+    ```{r}
+    dbinom(x = 1, size = 5, prob =1/9 )
+    ```
+
+c. How many observations should you expect will lie in the interval $0 \leq t < \frac{1}{3}$. That is, find $E\left[X \right]$. What is the standard deviation of $X$?
+
+    Marginally $X \sim Binom( 5, \frac{1}{9})$. Therefore, 
+    \begin{align*}
+    E\left[X \right] &= \frac{5}{9},\\
+    SD\left[X \right] &= \sqrt{ 5 \times \frac{1}{9} \times \frac{8}{9} } = \frac{2 \times \sqrt{10}}{9}.
+    \end{align*}
+
+    We should expect `r round(5/9,4)` values to fall in the  interval $0 \leq t < \frac{1}{3}$,  give or take `r round(sqrt(5*8/81),4)`. 
+
+
+
+3. (For HW 1 problem 3) The binomial theorem states that for real numbers $a$ and $b$ and an integer $n$:
+
+    $$(a+b)^{n} = \binom{n}{0} a^{0} b^{n} + \binom{n}{1} a^{1} b^{n-1} + \binom{n}{2} a^{2} b^{n-2} + \dots + \binom{n}{n} a^{n} b^{0}$$
+     
+     Show, using the binomial theorem, that
+$$\sum\limits_{x=0}^{n} \binom{n}{x} = 2^n.$$ 
+
+     The binomial theorem can be written succinctly as
+     $$(a+b)^n = \sum\limits_{x=0}^{n} \binom{n}{x} a^{x} b^{n-x}$$
+     
+     Choosing $a=1$ and $b=1$ we then get the result
+     $$(1+1)^n = 2^n = \sum\limits_{x=0}^{n} \binom{n}{x}.$$
