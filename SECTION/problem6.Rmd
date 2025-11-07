@@ -59,7 +59,7 @@ a. First, let's calculate the observed value of the estimator $\hat{\sigma}^2_0$
 
 
 
-b. Now implement a parametric bootstrap scheme to approximate the sampling distribution of $\hat{\sigma}^2_0$. Generate $B=1,000$ bootstrapped estimates and save them in a data frame called `boot_df`. For reproducibility, let's use 1234 as the random number seed. Scan the first few rows to look at it. (Consult slides 9 - 13 in the slide deck 6.1 - 6.2.)
+b. Now implement a parametric bootstrap scheme to approximate the sampling distribution of $\hat{\sigma}^2_0$. Generate $B=1,000$ bootstrapped estimates and save them in a data frame called `boot_df`. For reproducibility, let's use 1234 as the random number seed. Scan the first few rows to look at it. (Consult slides 8 - 13 in the slide deck 6.1 - 6.2.)
 
 
 c. Create a histogram of the bootstrapped estimates. Comment on the shape. 
