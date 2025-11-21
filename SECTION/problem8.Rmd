@@ -1,0 +1,145 @@
+---
+title: "Problem Section 8"
+date:  "Empirical P-values"
+graphics: yes
+output: pdf_document
+header-includes:
+    - \usepackage{amsmath, amssymb}
+    - \usepackage{framed}\definecolor{shadecolor}{rgb}{0.949,0.949,0.949}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+```
+
+\begin{shaded}
+
+\textbf{Learning Outcomes}
+
+The problems are designed to build conceptual understanding and problem-solving skills. The emphasis is on learning to find, evaluate and build confidence. The specific tasks include: 
+
+   - Find an empirical P-value
+ 
+
+
+\end{shaded}
+
+
+* * *
+
+### Instructions
+
+- Please submit your completed file in CANVAS
+
+
+### Exercises 
+
+1. Suppose the following sample - denoted by $X_1,X_2,\dots,X_n$ - are drawn from a $Norm(0, \sigma^2_0)$ distribution:
+
+    ```{r}
+    x <- c(-0.58319935, -1.36090219,  0.38663763, -1.54365592,  
+           0.87083945, -0.69187830, 0.45898841, -2.82556635, 
+           0.01777137, -0.62753863 , 0.54611381, -1.39731591, 
+           -1.72584231,  0.91371529,  0.18096064, -0.53063107,
+           -0.76604739, -1.97107704, 0.56394712,  1.13707563)
+    ```
+
+Suppose we want to test $H_0: \sigma^2_0 = 1$ versus $\sigma^2_0 > 1$ using the sample variance
+
+$$S^2 = \frac{1}{n-1} \sum\limits_{i=1}^{n} (X_i - \bar{X})^2.$$
+
+as our test statistic.
+Note: $S^2$ is an unbiased estimator for $\sigma^2_0$.
+
+a. Calculate the observed value for $S^2$ and save it in a variable called obs_s2.
+
+b. Simulate a large number - $B$- of values from the null sampling distribution of the estimator $S^2$. Make a histogram of these values, label it properly and mark the observed value from part a with a purple vertical line. 
+
+    Some tips: Create a dataframe called `null_dist` which has a column $s2$ with the values for $S^2$ when data are simulated from the null hypothesis.
+
+
+
+    ```{r partb}
+
+    set.seed(2626)
+    B <- 1000            #number of replications
+    sigma2_null <- 1     #null value of sigma2
+ 
+    #write code to simulate values of S2 from the null hypothesis
+
+
+    # write code to make a histogram of null dist of S2. 
+    #don't forget to play with binwidth
+
+    ```
+
+c. Calculate the empirical P-value. What would you conclude at any reasonable $\alpha$ level?
+
+* * * 
+
+For those who want to stretch. This will also be covered in section on Monday.
+
+
+d. Suppose we now decide to use the Range $R = X_{max} - X_{min}$ as our test statistic. Fill in the blanks in the code below to repeat parts a, b and c using the statistic $R$.  We are now going to write code for part b flexibly - using the `lapply` function - so we can calculate multiple statistics for each iteration - $s^2$ and $r$ - from the same simulated data and return a dataframe with their values.
+
+    Remove the `eval = FALSE` option when the blanks are filled.
+
+
+    ```{r partd, eval = FALSE}
+    set.seed(2626)
+
+    B = 1000
+
+    #calculated observed value of R
+    obs_r = ___
+
+
+    #create a list with B small data frames in it each
+    #containing a s2 and r calculated for a data set simulated
+    #under the null hypothesis
+
+    null_dist_list <- lapply(1:B, FUN = function(i){ 
+                      sim_x = rnorm(n = ___, 
+                                    mean = ___,
+                                    sd = ___ )
+                      data.frame( s2 = ___,
+                                   r = ___)
+               }
+
+    #use map_dfr to bind the mini dataframes by row
+    #into one larger dataframe
+
+    null_dist <- map_dfr(null_dist_list, bind_rows)       
+
+
+    # write code to make a histogram of null dist of R. 
+    #don't forget to play with binwidth
+
+
+    #calculate empirical Pvalue for test based on R as test statistic
+
+    ```
+
+
+
+We will now switch gears and think about conducting the test at a level $\alpha = 0.05$. Of course, neither $S^2$ nor $R$ are large enough for rejection at this level. What sort of value would we need to see to be able to reject at this level? Let's find out.
+
+e. Suppose we decide to use a level $\alpha=0.05$ test. What values of $S^2$ will you reject $H_0$ for? Same question for $R$. 
+
+    Hint: find the 95th percentile of the null values for each statistic. Think about why.
+
+
+
+f. For the decision rule corresponding to the level $\alpha = 0.05$ test from part e, compare the Type II error probabilities for $S^2$ and $R$ when $\sigma^2_0 = 3$. Remember, the Type II error rate is the probability that we fail to reject $H_0$ when $H_1$ is true. How do they do?   
+    
+    Hint: You will first need to simulate data under the alternative and then calculate the Type II error rate. No scaffolded code provided.
+
+
+    ```{r partf}
+    set.seed(151)
+    
+    sigma2_alt <- 3
+
+    ```
+
