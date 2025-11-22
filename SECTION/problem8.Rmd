@@ -105,7 +105,7 @@ d. Suppose we now decide to use the Range $R = X_{max} - X_{min}$ as our test st
                                     sd = ___ )
                       data.frame( s2 = ___,
                                    r = ___)
-               }
+               })
 
     #use map_dfr to bind the mini dataframes by row
     #into one larger dataframe
